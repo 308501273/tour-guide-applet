@@ -1,0 +1,51 @@
+server:
+  port: 7999
+spring:
+  rabbitmq:
+    host: ${tourguide.myServer}
+    username: fengenchun
+    password: 'fengenchun'
+    virtual-host: /
+  servlet:
+    multipart:
+      max-file-size: 20MB #限制文件上传的大小
+      location: /data/upload_tmp
+  datasource:
+    url: jdbc:mysql://${tourguide.datasourceServer}:3306/tour_guide_applet?useSSL=false&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: '053073@Zd'
+  jackson:
+#    default-property-inclusion: non_null
+  redis:
+    jedis:
+      pool:
+        max-active: 100
+        max-idle: 10
+    host: ${tourguide.myServer}
+    port: 6379
+    password: '053073@Zd'
+mybatis:
+  type-aliases-package: com.guide.user.pojo
+wechat:
+  url: 'https://api.weixin.qq.com/sns/jscode2session'
+  granttype: 'authorization_code'
+  appid: 'wx4647cdec89c56e4c'
+  secret: '70ec390fe9e9725372f04d188e17decb'
+fdfs:
+  so-timeout: 1501
+  connect-timeout: 601
+  thumb-image: # 缩略图
+    width: 60
+    height: 60
+  tracker-list: # tracker地址
+    - ${tourguide.myServer}:22122
+tourguide:
+  datasourceServer: localhost
+  myServer: 1.15.103.43
+  upload:
+    base_url: http://www.tianyaguet.club/
+    imageAllowTypes:
+      - image/jpeg
+      - image/png
+      - image/bmp
