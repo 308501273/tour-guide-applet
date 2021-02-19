@@ -79,7 +79,11 @@ public class UserService {
             user = new User();
             user.setOpenId(result.getOpenid());
             user.setLastLoginTime(date);
-            updateUserInfoByOpenId(user);
+            Example example = new Example(User.class);
+            example.createCriteria().andEqualTo("openId", user.getOpenId());
+            userMapper.updateByExampleSelective(user, example);
+            sessionUser.setLastLoginTime(user.getLastLoginTime());
+            return sessionUser;
         } else {
             Double longitude = ConstantClassField.DEFAULT_LONGITUDE;
             Double latitude = ConstantClassField.DEFAULT_LATITUDE;
