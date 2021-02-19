@@ -59,4 +59,5 @@ public class UserController {
         return ResponseEntity.accepted().body(userService.updatePhone(openId, phone, code));
     }
 
+
 }

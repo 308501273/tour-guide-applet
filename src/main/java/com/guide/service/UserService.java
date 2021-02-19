@@ -142,7 +142,7 @@ public class UserService {
         //通过rabbitmq发送短信验证码
         amqpTemplate.convertAndSend("tourguide.sms.exchange", "tourguide.sms.code", msg);
         //生成一个redis的key
-        String key = Tool.encryptRedisKey(ConstantClassField.UPDATE_PHONE_HEAD, phone);
+        String key = Tool.encryptRedisKey(ConstantClassField.USER_UPDATE_PHONE_HEAD, phone);
         String value = Tool.encryptRedisValue(phone, code);
         //保存验证码到redis中
         redisTemplate.opsForValue().set(key, value, 5, TimeUnit.MINUTES);
@@ -150,7 +150,7 @@ public class UserService {
 
     @Transactional
     public Boolean updatePhone(String openId, String phone, String code) {
-        String key = Tool.encryptRedisKey(ConstantClassField.UPDATE_PHONE_HEAD, phone);
+        String key = Tool.encryptRedisKey(ConstantClassField.USER_UPDATE_PHONE_HEAD, phone);
         if (!Tool.encryptRedisValue(phone, code).equals(redisTemplate.opsForValue().get(key))) {
             throw new GuideException(ExceptionEnum.VERIFICATION_CODE_ERROR);
         }

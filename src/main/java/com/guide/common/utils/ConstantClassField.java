@@ -35,18 +35,9 @@ public class ConstantClassField {
     public static final Double DEFAULT_LONGITUDE= 116.40;
     public static final Double DEFAULT_LATITUDE=39.90;
     public static final String DEFAULT_ADDRESS = "北京市";
-    public static final Integer RECORDFILE_NOT_DELETE=0;
-    public static final Integer RECORDFILE_DELETE_STATUS=1;
-    public static final Integer INSERET_SUCCESS=1;
-    public static final Integer INSERT_FAIL=0;
-    public static final Integer UPDATE_SUCCESS=1;
-    public static final Integer UPDATE_FAIL=0;
-    public static final Integer RECOMMAND_SIZE=6;                          //推送的数目
-    public static final Integer DISTANCES=5000;                                  //默认查找的距离是5000米
-    public static final Integer MAX_DISTANCES=30000;                    //最大查找范围
-    public static final Integer EACH_INCREASE_DISTANCES=5000;     //每次查找的范围增加5000米
-    public static final Integer TEACHER_STATUS_FREE=1;
-    public static final Integer TEACHER_STATUS_WAITING_AUDIT=0;
+    public static final Integer TEACHER_STATUS_NORMAL=1;              //导游账号正常状态
+    public static final Integer GUIDER_STATUS_WAITING_AUDIT=0;      //导游认证等待审核状态
     public static final Integer  NOT_ONE_TEACHER=2;
-    public static final String UPDATE_PHONE_HEAD = "UPDATE_PHONE";
+    public static final String USER_UPDATE_PHONE_HEAD = "USER_UPDATE_PHONE";
+    public static final String GUIDER_UPDATE_PHONE_HEAD = "GUIDER_UPDATE_PHONE";
 }
