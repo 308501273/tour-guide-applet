@@ -1,5 +1,6 @@
-package com.guide.utils.common;
+package com.guide.common.utils;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
@@ -14,17 +15,13 @@ public class TokenProcessor {
     public static TokenProcessor getInstance(){
         return instance;
     }
-
-    public static String getTokenCode(String key,String code){
-        String value = key+code;
+    public static String getTokenCode(String data){
         long currentTime = System.currentTimeMillis();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy年-MM月dd日-HH时mm分ss秒");
         Date date = new Date(currentTime);
-
         //获取数据指纹，指纹是唯一的
         try {
             MessageDigest md = MessageDigest.getInstance("md5");
-            byte[] b = md.digest(value.getBytes());//产生数据的指纹
+            byte[] b = md.digest(data.getBytes());//产生数据的指纹
             //Base64编码
             BASE64Encoder be = new BASE64Encoder();
             be.encode(b);
@@ -37,7 +34,7 @@ public class TokenProcessor {
 
     public static void main(String[] args) {
         System.out.println(
-                getTokenCode("1","")
+                TokenProcessor.getTokenCode("1")
         );
     }
 }

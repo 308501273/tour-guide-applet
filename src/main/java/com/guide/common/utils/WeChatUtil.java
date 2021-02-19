@@ -1,4 +1,4 @@
-package com.guide.utils.common;
+package com.guide.common.utils;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;

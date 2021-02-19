@@ -1,6 +1,5 @@
-package com.guide.utils.exception;
+package com.guide.common.exception;
 
-import com.guide.utils.exception.ExceptionEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

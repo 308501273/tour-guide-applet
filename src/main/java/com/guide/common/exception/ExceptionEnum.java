@@ -1,14 +1,19 @@
-package com.guide.utils.exception;
+package com.guide.common.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+/**
+ * @author fengenchun
+ */
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public enum ExceptionEnum {
     NO_AUTHORIZED(403,"您没有权限访问！"),
+    SERVER_ERROR(500,"服务器错误!"),
     CLIENT_CALL_FAIL(500,"调用服务失败"),
     EXCEED_THE_UPPER_LIMIT(500,"超出数量上限"),
     ORDER_UPDATE_STATUS_FAIL(500,"更新订单状态失败"),

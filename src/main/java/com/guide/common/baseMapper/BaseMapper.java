@@ -1,4 +1,4 @@
-package com.guide.utils.baseMapper;
+package com.guide.common.baseMapper;
 
 import tk.mybatis.mapper.additional.idlist.IdListMapper;
 import tk.mybatis.mapper.additional.insert.InsertListMapper;

@@ -1,7 +1,7 @@
-package com.guide.utils.common;
+package com.guide.common.utils;
 
 import com.alibaba.fastjson.JSON;
-import com.guide.pojo.WeChatResultType;
+import com.guide.conf.wechat.WeChatResultType;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;

@@ -1,4 +1,4 @@
-package com.guide.pojo;
+package com.guide.conf.wechat;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class WeChatProperties {
 
     @Value("${wechat.appid}")
-    private  String appid;
+    private String appid;
 
     @Value("${wechat.secret}")
     private String secret;

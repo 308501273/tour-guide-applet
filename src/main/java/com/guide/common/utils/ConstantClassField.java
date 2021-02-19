@@ -1,4 +1,4 @@
-package com.guide.utils.common;
+package com.guide.common.utils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -48,4 +48,5 @@ public class ConstantClassField {
     public static final Integer TEACHER_STATUS_FREE=1;
     public static final Integer TEACHER_STATUS_WAITING_AUDIT=0;
     public static final Integer  NOT_ONE_TEACHER=2;
+    public static final String UPDATE_PHONE_HEAD = "UPDATE_PHONE";
 }

@@ -17,7 +17,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
     /**
      * @param code
      * @param iv
@@ -35,19 +34,29 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<User>getUserByOpenId(String openId){
+    public ResponseEntity<User> getUserByOpenId(String openId) {
         return ResponseEntity.ok(userService.getUserByOpenId(openId));
     }
 
     @PutMapping
-    public ResponseEntity<Boolean> updateUserByOpenId(User user){
+    public ResponseEntity<Boolean> updateUserByOpenId(User user) {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(userService.updateUserInfoByOpenId(user));
     }
 
-    @PostMapping(value = "/avatar_url", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Boolean> updataAvatarUrl(String openId,@RequestPart("file") MultipartFile file){
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(userService.uploadAvatarUrl(openId,file));
+    @PostMapping(value = "avatar_url", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Boolean> updataAvatarUrl(String openId, @RequestPart("file") MultipartFile file) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(userService.uploadAvatarUrl(openId, file));
     }
 
+    @GetMapping("message_code")
+    public ResponseEntity<Void> getPhoneCode(String phone) {
+        userService.getMessageCode(phone);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("phone")
+    public ResponseEntity<Boolean> updatePhone(String openId, String phone, String code) {
+        return ResponseEntity.accepted().body(userService.updatePhone(openId, phone, code));
+    }
 
 }

@@ -1,11 +1,6 @@
 server:
   port: 7999
 spring:
-  rabbitmq:
-    host: ${tourguide.myServer}
-    username: fengenchun
-    password: 'fengenchun'
-    virtual-host: /
   servlet:
     multipart:
       max-file-size: 20MB #限制文件上传的大小
@@ -16,7 +11,7 @@ spring:
     username: root
     password: '053073@Zd'
   jackson:
-#    default-property-inclusion: non_null
+  #    default-property-inclusion: non_null
   redis:
     jedis:
       pool:
@@ -25,6 +20,12 @@ spring:
     host: ${tourguide.myServer}
     port: 6379
     password: '053073@Zd'
+  rabbitmq:
+    host: ${tourguide.myServer}
+    username: fengenchun
+    password: 'fengenchun'
+    virtual-host: /
+    port: 5672
 mybatis:
   type-aliases-package: com.guide.user.pojo
 wechat:
@@ -44,8 +45,19 @@ tourguide:
   datasourceServer: localhost
   myServer: 1.15.103.43
   upload:
-    base_url: http://www.tianyaguet.club/
+    base_url: https://www.tianyaguet.club/
     imageAllowTypes:
       - image/jpeg
       - image/png
       - image/bmp
+  sms:
+    effectiveTime: "5"        #短信有效时间（单位：分钟）
+    codeTemplateId: 431479    #短信签名模板
+    appid: 1400486555         #应用id
+    appkey: 3f7d283fe2e1501038c4a1ce4ddedfcf
+    smsSign: "冯恩春的毕设"
+    nationCode: "86"
+  mailbox:
+    effectiveTime: "5"
+    authCode: sjitgecsrmxqbghi
+    emailSender: 308501273@qq.com

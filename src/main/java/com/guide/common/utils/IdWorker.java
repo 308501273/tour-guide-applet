@@ -1,4 +1,4 @@
-package com.guide.utils.common;
+package com.guide.common.utils;
 
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;

@@ -1,4 +1,4 @@
-package com.guide.pojo;
+package com.guide.conf.wechat;
 
 import lombok.Data;
 

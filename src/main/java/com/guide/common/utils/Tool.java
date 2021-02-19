@@ -1,4 +1,4 @@
-package com.guide.utils.common;
+package com.guide.common.utils;
 
 
 import java.lang.reflect.Field;
@@ -83,7 +83,10 @@ public class Tool {
         }
         return retVal;
     }
-    public static String getRedisKey(String key){
-        return TokenProcessor.getTokenCode(key,"");
+    public static String encryptRedisKey(String head,String phone){
+        return TokenProcessor.getTokenCode(head+phone);
+    }
+    public static String encryptRedisValue(String phone,String code){
+        return TokenProcessor.getTokenCode(phone+code);
     }
 }

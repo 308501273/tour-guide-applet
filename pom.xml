@@ -71,11 +71,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.github.qcloudsms</groupId>
-            <artifactId>qcloudsms</artifactId>
-            <version>1.0.6</version>
-        </dependency>
         <dependency >
             <groupId >com.sun.mail </groupId >
             <artifactId >javax.mail </artifactId >
@@ -86,6 +81,7 @@
             <artifactId>fastdfs-client</artifactId>
             <version>1.26.1-RELEASE</version>
         </dependency>
+
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
@@ -101,14 +97,13 @@
             <version>1.2.75</version>
         </dependency>
         <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.60</version>
+            <groupId>com.github.qcloudsms</groupId>
+            <artifactId>qcloudsms</artifactId>
+            <version>1.0.6</version>
         </dependency>
         <dependency>
-            <groupId>org.jodd</groupId>
-            <artifactId>jodd-all</artifactId>
-            <version>4.3.1</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
     </dependencies>
     <build>
