@@ -41,6 +41,8 @@ public class ConstantClassField {
     public static final Integer LEVEL_APPLY_WAITING=0;
     public static final Integer LEVEL_APPLY_APPROVED=1;
     public static final Integer LEVEL_APPLY_REFUSED=2;
+    public static final Integer LEVEL_NOT_ENABLED=0;
+    public static final Integer LEVEL_NORMAL=1;
     public static final String USER_UPDATE_PHONE_HEAD = "USER_UPDATE_PHONE";
     public static final String GUIDER_UPDATE_PHONE_HEAD = "GUIDER_UPDATE_PHONE";
 }

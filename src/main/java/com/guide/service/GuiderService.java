@@ -15,6 +15,7 @@ import com.guide.mapper.GuiderMapper;
 import com.guide.mapper.LevelApplyMapper;
 import com.guide.mapper.LevelMapper;
 import com.guide.pojo.Guider;
+import com.guide.pojo.Level;
 import com.guide.pojo.LevelApply;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -26,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.spring.annotation.MapperScan;
 
 import java.beans.Transient;
 import java.util.Date;
@@ -151,8 +153,10 @@ public class GuiderService {
             throw new GuideException(ExceptionEnum.GUIDER_NOT_FOUND);
         }
         PageInfo<Guider> result = new PageInfo<>(guiderList);
+        List<Level> levelList = levelMapper.selectAll();
+        Map<Integer, String> levelMap = levelList.stream().collect(Collectors.toMap(Level::getId, Level::getName));
         guiderList = guiderList.stream().map(guider -> {
-            guider.setIdCardUrlList(JSONObject.parseArray(guider.getIdCardUrl(), String.class));
+            guider.setLevelName(levelMap.get(guider.getLevelId()));
             return guider;
         }).collect(Collectors.toList());
         return new PageResult<>(result.getTotal(), page, guiderList, rows);
@@ -161,7 +165,10 @@ public class GuiderService {
     public Guider getGuiderByopenId(String openid) {
         Guider guider = new Guider();
         guider.setOpenId(openid);
-        return guiderMapper.selectOne(guider);
+        guider = guiderMapper.selectOne(guider);
+        Level level = levelMapper.selectByPrimaryKey(guider.getLevelId());
+        guider.setLevelName(level.getName());
+        return guider;
     }
 
     public Boolean updateGuiderByOpenId(Guider guider) {
@@ -228,7 +235,7 @@ public class GuiderService {
         //如果num=0，则没有申请中的记录，需要在数据库中添加一条level_apply记录
         if (num == 0) {
             //首先新增之前删除之前被拒绝和已经通过的申请记录，不保留冗余数据
-            levelApply=new LevelApply();
+            levelApply = new LevelApply();
             levelApply.setGuiderOpenId(openId);
             levelApplyMapper.delete(levelApply);
             //开始插入新数据
