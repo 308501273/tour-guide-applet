@@ -153,12 +153,19 @@ public class GuiderService {
             throw new GuideException(ExceptionEnum.GUIDER_NOT_FOUND);
         }
         PageInfo<Guider> result = new PageInfo<>(guiderList);
+
+        //在这查找出所有的level，将levelList的所有id作为map的key，将levelList的所有name作为对应的value存入levelMap中
         List<Level> levelList = levelMapper.selectAll();
-        Map<Integer, String> levelMap = levelList.stream().collect(Collectors.toMap(Level::getId, Level::getName));
+        Map<Integer, String> levelMap = levelList.stream()
+                .collect(Collectors.toMap(Level::getId, Level::getName));
+
+        //根据guider的levelId去到levelMap中取得对应的value，然后设置为guider的levelName
         guiderList = guiderList.stream().map(guider -> {
             guider.setLevelName(levelMap.get(guider.getLevelId()));
             return guider;
         }).collect(Collectors.toList());
+
+        //返回分页之后的数据
         return new PageResult<>(result.getTotal(), page, guiderList, rows);
     }
 
