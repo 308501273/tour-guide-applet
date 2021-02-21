@@ -110,9 +110,18 @@ public class Guider {
 
     private String introduce;
 
+    /**
+     * 导游级别
+     */
+    private int level;
+
+    @Transient
+    private String levelName;
+
     @Transient
     @JsonIgnore
     private List<String> idCardUrlList;
+
 
 
 }
