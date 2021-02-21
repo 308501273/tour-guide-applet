@@ -79,4 +79,16 @@ public class GuiderController {
         return ResponseEntity.accepted().body(guiderService.updatePhone(openId, phone, code));
     }
 
+    /**
+     * 导游提交变更级别申请
+     * @param openId
+     * @param levelId
+     * @param file
+     * @return
+     */
+    @PutMapping(value = "level", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Boolean> updateLevel(String openId, Integer levelId, @RequestPart("file") MultipartFile file) {
+        return ResponseEntity.accepted().body(guiderService.updateLevel(openId,levelId,file));
+    }
+
 }

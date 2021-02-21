@@ -113,7 +113,7 @@ public class Guider {
     /**
      * 导游级别
      */
-    private int level;
+    private Integer levelId;
 
     @Transient
     private String levelName;

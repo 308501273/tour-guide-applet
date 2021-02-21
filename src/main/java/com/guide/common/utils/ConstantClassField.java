@@ -18,7 +18,6 @@ public class ConstantClassField {
     public static final String GET_AVATARURL_ERROR="error";
     public static final String KEY_PREFIX="o2o-order:";
     public static final String CREAT_ORDER_FAILED="您有一笔待支付的订单";
-    public static final String CREAT_ORDER_ERROR="在此时间段该家教已有订单，请调整时间";
     public static final Integer PAYJS_CHECK_REQUEST_SUCCESS=1;
     public static final Integer PAYJS_PAY_SUCCESS=1;                    //支付成功的
     public static final Integer PAYJS_REFUND_SUCCESS=1;
@@ -39,6 +38,9 @@ public class ConstantClassField {
     public static final Integer GUIDER_STATUS_WAITING_AUDIT=0;      //导游认证等待审核状态
     public static final Integer  GUIDER_MALE=1;
     public static final Integer  GUIDER_FEMALE=0;
+    public static final Integer LEVEL_APPLY_WAITING=0;
+    public static final Integer LEVEL_APPLY_APPROVED=1;
+    public static final Integer LEVEL_APPLY_REFUSED=2;
     public static final String USER_UPDATE_PHONE_HEAD = "USER_UPDATE_PHONE";
     public static final String GUIDER_UPDATE_PHONE_HEAD = "GUIDER_UPDATE_PHONE";
 }

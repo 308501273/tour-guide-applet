@@ -12,7 +12,10 @@ import com.guide.common.utils.Tool;
 import com.guide.conf.fdfs.AvatarUrlProperties;
 import com.guide.conf.rabbitmq.MessageProperties;
 import com.guide.mapper.GuiderMapper;
+import com.guide.mapper.LevelApplyMapper;
+import com.guide.mapper.LevelMapper;
 import com.guide.pojo.Guider;
+import com.guide.pojo.LevelApply;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -24,6 +27,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.entity.Example;
 
+import java.beans.Transient;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +50,10 @@ public class GuiderService {
     private MessageProperties messageProperties;
     @Autowired
     private AmqpTemplate amqpTemplate;
+    @Autowired
+    private LevelMapper levelMapper;
+    @Autowired
+    private LevelApplyMapper levelApplyMapper;
 
     public String uploadImage(MultipartFile file) {
         String url = uploadService.uploadImage(file);
@@ -68,6 +77,7 @@ public class GuiderService {
 
 
     public Boolean applyToGuider(Guider guider, String code) {
+
         String key = Tool.encryptRedisKey(ConstantClassField.GUIDER_UPDATE_PHONE_HEAD, guider.getPhone());
         if (!Tool.encryptRedisValue(guider.getPhone(), code).equals(redisTemplate.opsForValue().get(key))) {
             throw new GuideException(ExceptionEnum.VERIFICATION_CODE_ERROR);
@@ -103,12 +113,15 @@ public class GuiderService {
         guider.setProfessionalScore(100d);
         guider.setComprehensiveScore(100d);
         guider.setServedPeopleNum(0);
-        if(guider.getGender()==null){
+        if (guider.getLevelId() == null || levelMapper.selectByPrimaryKey(guider.getLevelId()) != null) {
+            throw new GuideException(ExceptionEnum.LEVEL_CANNOT_FOUND);
+        }
+        if (guider.getGender() == null) {
             guider.setGender(ConstantClassField.GUIDER_MALE);
         }
-        if(guider.getGender().equals(ConstantClassField.GUIDER_MALE)){
+        if (guider.getGender().equals(ConstantClassField.GUIDER_MALE)) {
             guider.setAvatarUrl(avatarUrlProperties.getDefaultMaleAvatarUrl());
-        }else{
+        } else {
             guider.setAvatarUrl(avatarUrlProperties.getDefaultFemaleAvatarUrl());
         }
         //设置状态为审核状态
@@ -160,8 +173,8 @@ public class GuiderService {
         tmpGuider.setServiceTime(guider.getServiceTime());
         tmpGuider.setIntroduce(guider.getIntroduce());
         Example example = new Example(Guider.class);
-        example.createCriteria().andEqualTo("openId",guider.getOpenId());
-        return guiderMapper.updateByExampleSelective(guider,example)==1;
+        example.createCriteria().andEqualTo("openId", guider.getOpenId());
+        return guiderMapper.updateByExampleSelective(guider, example) == 1;
     }
 
     public Boolean updateAvatarUrl(String openId, MultipartFile file) {
@@ -175,6 +188,7 @@ public class GuiderService {
         }
         return false;
     }
+
     @Transactional
     public Boolean updatePhone(String openId, String phone, String code) {
         String key = Tool.encryptRedisKey(ConstantClassField.GUIDER_UPDATE_PHONE_HEAD, phone);
@@ -199,5 +213,32 @@ public class GuiderService {
     }
 
 
-
+    @Transient
+    public Boolean updateLevel(String openId, Integer levelId, MultipartFile file) {
+        String imageUrl = uploadService.uploadImage(file);
+        //先进行查询，看有没有等待审核的申请，有的话更新记录即可
+        Example example = new Example(LevelApply.class);
+        example.createCriteria().andEqualTo("guiderOpenId", openId)
+                .andEqualTo("status", ConstantClassField.LEVEL_APPLY_WAITING);
+        LevelApply levelApply = new LevelApply();
+        levelApply.setQualificationUrl(imageUrl);
+        levelApply.setLevelId(levelId);
+        levelApply.setApplyTime(new Date());
+        int num = levelApplyMapper.updateByExampleSelective(levelApply, example);
+        //如果num=0，则没有申请中的记录，需要在数据库中添加一条level_apply记录
+        if (num == 0) {
+            //首先新增之前删除之前被拒绝和已经通过的申请记录，不保留冗余数据
+            levelApply=new LevelApply();
+            levelApply.setGuiderOpenId(openId);
+            levelApplyMapper.delete(levelApply);
+            //开始插入新数据
+            levelApply.setGuiderOpenId(openId);
+            levelApply.setQualificationUrl(imageUrl);
+            levelApply.setLevelId(levelId);
+            levelApply.setApplyTime(new Date());
+            levelApply.setStatus(ConstantClassField.LEVEL_APPLY_WAITING);
+            return levelApplyMapper.insert(levelApply) == 1;
+        }
+        return true;
+    }
 }

@@ -16,10 +16,10 @@ public class LevelApply {
     private Integer id;
 
     /**
-     * 导游id
+     * 导游的openId
      */
-    @Column(name = "guider_id")
-    private Integer guiderId;
+    @Column(name = "guider_open_id")
+    private String guiderOpenId;
 
     /**
      * 级别id
@@ -43,5 +43,8 @@ public class LevelApply {
      * 申请状态（0审核中，1通过，2拒绝）
      */
     private Integer status;
+
+    @Transient
+    private String levelName;
 
 }
