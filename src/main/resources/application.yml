@@ -11,7 +11,7 @@ spring:
     username: root
     password: '053073@Zd'
   jackson:
-  #    default-property-inclusion: non_null
+    default-property-inclusion: non_null
   redis:
     jedis:
       pool:
@@ -50,6 +50,9 @@ tourguide:
       - image/jpeg
       - image/png
       - image/bmp
+  avatar:
+    defaultMaleAvatarUrl: https://www.tianyaguet.club/group1/M00/00/00/rBEABWAwjkeAFvAYAAD9ibtIWgE278.png
+    defaultFemaleAvatarUrl: https://www.tianyaguet.club/group1/M00/00/00/rBEABWAwjiKARmbHAAFYks_om3M342.png
   sms:
     effectiveTime: "5"        #短信有效时间（单位：分钟）
     codeTemplateId: 431479    #短信签名模板

@@ -35,9 +35,10 @@ public class ConstantClassField {
     public static final Double DEFAULT_LONGITUDE= 116.40;
     public static final Double DEFAULT_LATITUDE=39.90;
     public static final String DEFAULT_ADDRESS = "北京市";
-    public static final Integer TEACHER_STATUS_NORMAL=1;              //导游账号正常状态
+    public static final Integer GUIDER_STATUS_NORMAL=1;              //导游账号正常状态
     public static final Integer GUIDER_STATUS_WAITING_AUDIT=0;      //导游认证等待审核状态
-    public static final Integer  NOT_ONE_TEACHER=2;
+    public static final Integer  GUIDER_MALE=1;
+    public static final Integer  GUIDER_FEMALE=0;
     public static final String USER_UPDATE_PHONE_HEAD = "USER_UPDATE_PHONE";
     public static final String GUIDER_UPDATE_PHONE_HEAD = "GUIDER_UPDATE_PHONE";
 }

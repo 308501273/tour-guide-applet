@@ -1,5 +1,6 @@
 package com.guide.web;
 
+import com.guide.pojo.Guider;
 import com.guide.pojo.User;
 import com.guide.service.UserService;
 
@@ -9,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 
 @RestController
@@ -40,12 +43,12 @@ public class UserController {
 
     @PutMapping
     public ResponseEntity<Boolean> updateUserByOpenId(User user) {
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(userService.updateUserInfoByOpenId(user));
+        return ResponseEntity.accepted().body(userService.updateUserInfoByOpenId(user));
     }
 
     @PostMapping(value = "avatar_url", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Boolean> updataAvatarUrl(String openId, @RequestPart("file") MultipartFile file) {
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(userService.uploadAvatarUrl(openId, file));
+    public ResponseEntity<Boolean> updateAvatarUrl(String openId, @RequestPart("file") MultipartFile file) {
+        return ResponseEntity.accepted().body(userService.updateAvatarUrl(openId, file));
     }
 
     @GetMapping("message_code")
@@ -58,6 +61,7 @@ public class UserController {
     public ResponseEntity<Boolean> updatePhone(String openId, String phone, String code) {
         return ResponseEntity.accepted().body(userService.updatePhone(openId, phone, code));
     }
+
 
 
 }

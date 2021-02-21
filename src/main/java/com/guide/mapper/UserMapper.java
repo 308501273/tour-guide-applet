@@ -15,6 +15,6 @@ public interface UserMapper extends BaseMapper<User> {
      * @param phone
      * @return
      */
-    @Update("UPDATE  tb_user SET phone=''  WHERE phone=#{phone}")
+    @Update("UPDATE tb_user SET phone='' WHERE phone=#{phone}")
     int transferPhone(@Param("phone") String phone);
 }

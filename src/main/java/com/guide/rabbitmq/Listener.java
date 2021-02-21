@@ -24,10 +24,6 @@ public class Listener {
     private MessageUtils messageUtils;
     @Autowired
     private MailBoxUtils mailBoxUtils;
-    @Autowired
-    private MessageProperties messageProperties;
-    @Autowired
-    private MailBoxProperties mailBoxProperties;
 
     /**
      * 发送短信验证码
@@ -39,7 +35,6 @@ public class Listener {
             key = {"tourguide.sms.code"}
     ))
     public void listenToSendMessageCode(Map<String,String> msg){
-
         if(CollectionUtils.isEmpty(msg)){
             return;
         }
@@ -48,6 +43,6 @@ public class Listener {
         if(StringUtils.isBlank(code)|| StringUtils.isBlank(phone)){
             return;
         }
-        messageUtils.sendMessagesCode(phone,code,messageProperties);
+        messageUtils.sendMessagesCode(phone,code);
     }
 }

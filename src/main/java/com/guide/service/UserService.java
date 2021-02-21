@@ -1,7 +1,12 @@
 package com.guide.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.guide.common.utils.*;
+import com.guide.conf.rabbitmq.MessageProperties;
+import com.guide.mapper.GuiderMapper;
 import com.guide.mapper.UserMapper;
+import com.guide.pojo.Guider;
 import com.guide.pojo.User;
 import com.guide.conf.wechat.WeChatProperties;
 import com.guide.conf.wechat.WeChatResultType;
@@ -14,11 +19,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -36,6 +43,10 @@ public class UserService {
     private AmqpTemplate amqpTemplate;
     @Autowired
     private StringRedisTemplate redisTemplate;
+    @Autowired
+    private MessageProperties messageProperties;
+    @Autowired
+    private GuiderMapper guiderMapper;
 
     public User login(String code, String iv, String encryptedData) {
         if (StringUtils.isEmpty(code) || StringUtils.isEmpty(iv) || StringUtils.isEmpty(encryptedData)) {
@@ -76,6 +87,7 @@ public class UserService {
         User sessionUser = getUserByOpenId(user.getOpenId());
         Date date = new Date();
         if (sessionUser != null) {
+            //如果数据库中已经存在,只需要更新上次登录时间
             user = new User();
             user.setOpenId(result.getOpenid());
             user.setLastLoginTime(date);
@@ -126,7 +138,7 @@ public class UserService {
         return userMapper.updateByExampleSelective(user, example) == 1;
     }
 
-    public Boolean uploadAvatarUrl(String openId, MultipartFile file) {
+    public Boolean updateAvatarUrl(String openId, MultipartFile file) {
         String avatarUrl = uploadService.uploadImage(file);
         if (StringUtils.isNotBlank(avatarUrl)) {
             Example example = new Example(User.class);
@@ -149,7 +161,7 @@ public class UserService {
         String key = Tool.encryptRedisKey(ConstantClassField.USER_UPDATE_PHONE_HEAD, phone);
         String value = Tool.encryptRedisValue(phone, code);
         //保存验证码到redis中
-        redisTemplate.opsForValue().set(key, value, 5, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(key, value, Long.valueOf(messageProperties.getEffectiveTime()), TimeUnit.MINUTES);
     }
 
     @Transactional
@@ -174,4 +186,6 @@ public class UserService {
         }
         return flag;
     }
+
+
 }

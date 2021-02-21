@@ -1,8 +1,10 @@
 package com.guide.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Table(name = "tb_guider")
@@ -11,6 +13,7 @@ public class Guider {
      * 主键id
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**
@@ -25,20 +28,31 @@ public class Guider {
     private String name;
 
     /**
+     * 性别
+     */
+    private Integer gender;
+
+    /**
+     * 头像
+     */
+    @Column(name = "avatar_url")
+    private String avatarUrl;
+
+    /**
      * 手机号
      */
     private String phone;
 
     /**
-     * 服务地址
+     * 工作地址
      */
     private String address;
 
     /**
      * 收费标准（单位/小时）
      */
-    @Column(name = "unitFee")
-    private Integer unitfee;
+    @Column(name = "unit_fee")
+    private Integer unitFee;
 
     /**
      * 服务态度评分
@@ -72,6 +86,7 @@ public class Guider {
     /**
      * 身份证信息(照片url,三张，正反手持)
      */
+    @JsonIgnore
     @Column(name = "id_card_url")
     private String idCardUrl;
 
@@ -84,12 +99,20 @@ public class Guider {
     /**
      * 账号状态
      */
+    @JsonIgnore
     private Integer status;
 
     /**
      * 账号余额
      */
+    @JsonIgnore
     private Integer money;
+
+    private String introduce;
+
+    @Transient
+    @JsonIgnore
+    private List<String> idCardUrlList;
 
 
 }
